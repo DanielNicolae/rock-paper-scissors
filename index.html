@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css" >
     <title>Rock paper scissors</title>
 </head>
 <body>
+    <h1>Rock paper scissors</h1>
+    <form >
+        <input id="textInput" type="text" placeholder="rock, paper or scissors?" >
+        <input id="button" type="submit" value="submit">
+    </form>
+    <div id='results'></div>
     <script>
         function computerPlay() {
             let choice = ['rock', 'paper', 'scissors'];
@@ -50,38 +57,60 @@
                 return ('The round is a draw!');
             }
         }
-        // let computerSelection = computerPlay();
-        // let playerSelection = 'rock';
-        // console.log(playRound(playerSelection, computerSelection));
+        
+        let plays = 0;
+        let button = document.querySelector('#button');
 
         function game() {
             let playerScore = 0;
             let computerScore = 0;
-            for (let i = 0; i < 5; i++) {
-                let userInput = window.prompt('Rock, paper or scissors?');
-                let computer = computerPlay();
-                let result = playRound(userInput, computer);
-                if (result === true) {
-                    playerScore ++;
+            let results = document.querySelector('#results');
+            let userInput = document.getElementById('textInput').value;
+            console.log(userInput);
+            let computer = computerPlay();
+            let result = playRound(userInput, computer);
+            plays++;
+            if (result === true) {
+                playerScore++;
+            }
+            else if (result === false) {
+                computerScore++;
+            }
+            if (plays === 5) {
+                if (playerScore > computerScore) {
+                    console.log('You won!');
+                    let winner = document.createElement('p');
+                    winner.classList.add('winner');
+                    winner.textContent = 'You won!';
+                    results.appendChild(winner);
+                    return ('You won!')
                 }
-                else if (result === false) {
-                    computerScore ++;
+                else if (playerScore < computerScore) {
+                    console.log('You lose!');
+                    let looser = document.createElement('p');
+                    looser.classList.add('looser');
+                    looser.textContent = 'You lose!';
+                    results.appendChild(looser);
+                    return ('You lose!');
+                }
+                else {
+                    console.log('The game is a draw!');
+                    let draw = document.createElement('p');
+                    draw.classList.add('draw');
+                    draw.textContent = 'The game is a draw!';
+                    results.appendChild(draw);
+                    return ('The game is a draw!');
                 }
             }
-            if (playerScore > computerScore) {
-                console.log('You won!');
-                return ('You won!')
-            }
-            else if (playerScore < computerScore) {
-                console.log('You lose!');
-                return ('You lose!');
-            }
-            else {
-                console.log('The game is a draw!');
-                return ('The game is a draw!');
-            }
+            
         }
-        game();
+
+        button.addEventListener('click', (e) => {
+            document.getElementById('textInput').value = '';
+            e.preventDefault();
+            game(); 
+        });
+        
     </script>
 </body>
 </html>
